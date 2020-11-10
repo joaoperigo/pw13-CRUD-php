@@ -3,85 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Courier New', Courier, monospace;
-            padding: 0;
-            margin: 0;
-            background-color: #2299f4;
-        }
-        h1 {
-            text-align: center;
-            background-color: violet;
-            padding: 30px 0;
-            text-transform: uppercase;
-            font-family: Arial, Helvetica, sans-serif;
-            font-weight: 100;
-        }
-        h2 {
-            text-align: center;
-        }
-        form {
-            width: 600px;
-            background-color: #f4f4f4;
-            padding: 25px 40px 30px;
-            margin: 0 auto;
-        }
-        input, textarea {
-            width: 100%;
-            margin: 8px 0;
-            outline: none;
-            border: 0;
-            padding: 8px;
-            background-color:#ccc;
-            color: #000;
-            font-size: 1rem;
-            max-width: 100%;
-            min-width: 100%;
-        }
-        textarea {
-            min-height: 100px;
-        }
-        button {
-            background-color:seagreen;
-            outline: none;
-            border: 0;
-            font-size: 1rem;
-            color: #f4f4f4;
-            padding: 10px 20px;
-            cursor: pointer;
-            margin: 30px 0 0 0;
-        }
-        .wrapper {
-            display: flex;
-            justify-content: space-between;
-        }
-        #code {
-            /* width: 40px; */
-            min-width: auto;
-            margin: 0;
-        }
-        .rud {
-            margin: 0;
-        }
-        #create {
-            display: block;
-            width: 100%;
-        }
-        input:hover, button:hover, textarea:hover {
-            filter: invert(1);
-        }
-        input:focus, textarea:focus {
-            filter: invert(1);
-        }
-        input, button, form, textarea {
-            border-radius: 5px;
-        }
-    </style>
+    <title>PW13 - CRUD </title>
+    <link rel="stylesheet" href="style.css">
     <script>
     function loadValue(pcode,ptitle,pdescription,pprice,pquantity,pcategory) {
         code.value = pcode;
@@ -129,9 +52,12 @@
 
 
 if(isset($_POST["create"])) create();
-if(isset($_POST["read"])) read();
+if(isset($_POST["read"])) read(0);
 if(isset($_POST["update"])) update();
 if(isset($_POST["delete"])) delete();
+
+//pw14
+if($_GET['code']) read($_GET['code']);
 
 
 function create(){
@@ -149,8 +75,9 @@ function create(){
     $con->close();
 }
 
-function read(){
-    $code 	= $_POST["code"];
+function read($foo){
+    if($foo == 0) $code = $_POST["code"];
+    else $code = $foo;
     $con	= new mysqli("localhost","root","","pw13");	
     $sql	= "select code, title, description, price, quantity, category from produto where code=$code";
     $retorno = mysqli_query($con, $sql);
@@ -224,5 +151,5 @@ function delete(){
 // }
 
     // header('Refresh: 4; location:index.php');
-
+    
 ?>
